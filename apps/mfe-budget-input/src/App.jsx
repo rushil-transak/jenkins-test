@@ -2,7 +2,7 @@
 import BudgetInput from './components/BudgetInput.jsx';
 
 export default function App() {
-return (
+  return (
     <div
       style={{
         minHeight: '100vh',

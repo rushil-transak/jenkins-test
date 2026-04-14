@@ -31,9 +31,21 @@ pipeline {
         APP            = 'mfe-expense-tracker'
         WORKSPACE_FLAG = '--workspace=apps/mfe-expense-tracker'
         CI             = 'true'
+        GH_REPO        = 'rushil-transak/jenkins-test'
     }
 
     stages {
+
+        // ── 0. Prepare ─────────────────────────────────────────────────────
+        stage('Prepare') {
+            steps {
+                script {
+                    env.STATUS_SHA = env.CHANGE_ID
+                        ? sh(script: 'git rev-parse HEAD^1', returnStdout: true).trim()
+                        : env.GIT_COMMIT
+                }
+            }
+        }
 
         // ── 1. Install ─────────────────────────────────────────────────────
         stage('Install') {
@@ -49,6 +61,8 @@ pipeline {
                     changeset 'apps/mfe-expense-tracker/**'
                     changeset 'packages/**'
                     triggeredBy 'UserIdCause'
+                    expression { currentBuild.changeSets.isEmpty() }
+                    changeRequest()
                 }
             }
             steps {
@@ -63,6 +77,8 @@ pipeline {
                     changeset 'apps/mfe-expense-tracker/**'
                     changeset 'packages/**'
                     triggeredBy 'UserIdCause'
+                    expression { currentBuild.changeSets.isEmpty() }
+                    changeRequest()
                 }
             }
             steps {
@@ -85,6 +101,8 @@ pipeline {
                     changeset 'apps/mfe-expense-tracker/**'
                     changeset 'packages/**'
                     triggeredBy 'UserIdCause'
+                    expression { currentBuild.changeSets.isEmpty() }
+                    changeRequest()
                 }
             }
             steps {
@@ -99,6 +117,8 @@ pipeline {
                     changeset 'apps/mfe-expense-tracker/**'
                     changeset 'packages/**'
                     triggeredBy 'UserIdCause'
+                    expression { currentBuild.changeSets.isEmpty() }
+                    changeRequest()
                 }
             }
             steps {
@@ -112,17 +132,50 @@ pipeline {
     }
 
     post {
-        always {
+        cleanup {
             cleanWs()
         }
         success {
-            echo "[${env.APP}] Pipeline passed on '${env.BRANCH_NAME}' (build #${env.BUILD_NUMBER})"
+            withCredentials([usernamePassword(credentialsId: 'rushil-t', usernameVariable: 'GH_USER', passwordVariable: 'GH_PAT')]) {
+                sh """
+                    cd /tmp
+                    echo "Posting success for ${env.APP} to SHA ${env.STATUS_SHA}"
+                    curl -s -w "\\nHTTP_CODE:%{http_code}" -X POST \\
+                      -H "Authorization: token \${GH_PAT}" \\
+                      -H "Content-Type: application/json" \\
+                      "https://api.github.com/repos/${env.GH_REPO}/statuses/${env.STATUS_SHA}" \\
+                      -d '{"state":"success","context":"jenkins/${env.APP}","description":"Pipeline passed","target_url":"${env.BUILD_URL}"}' \\
+                      || echo "curl exited non-zero"
+                """
+            }
         }
         failure {
-            echo "[${env.APP}] Pipeline FAILED on '${env.BRANCH_NAME}' (build #${env.BUILD_NUMBER})"
+            withCredentials([usernamePassword(credentialsId: 'rushil-t', usernameVariable: 'GH_USER', passwordVariable: 'GH_PAT')]) {
+                sh """
+                    cd /tmp
+                    echo "Posting failure for ${env.APP} to SHA ${env.STATUS_SHA}"
+                    curl -s -w "\\nHTTP_CODE:%{http_code}" -X POST \\
+                      -H "Authorization: token \${GH_PAT}" \\
+                      -H "Content-Type: application/json" \\
+                      "https://api.github.com/repos/${env.GH_REPO}/statuses/${env.STATUS_SHA}" \\
+                      -d '{"state":"failure","context":"jenkins/${env.APP}","description":"Pipeline failed","target_url":"${env.BUILD_URL}"}' \\
+                      || echo "curl exited non-zero"
+                """
+            }
         }
         unstable {
-            echo "[${env.APP}] Pipeline UNSTABLE on '${env.BRANCH_NAME}' — check test results"
+            withCredentials([usernamePassword(credentialsId: 'rushil-t', usernameVariable: 'GH_USER', passwordVariable: 'GH_PAT')]) {
+                sh """
+                    cd /tmp
+                    echo "Posting unstable for ${env.APP} to SHA ${env.STATUS_SHA}"
+                    curl -s -w "\\nHTTP_CODE:%{http_code}" -X POST \\
+                      -H "Authorization: token \${GH_PAT}" \\
+                      -H "Content-Type: application/json" \\
+                      "https://api.github.com/repos/${env.GH_REPO}/statuses/${env.STATUS_SHA}" \\
+                      -d '{"state":"failure","context":"jenkins/${env.APP}","description":"Tests unstable","target_url":"${env.BUILD_URL}"}' \\
+                      || echo "curl exited non-zero"
+                """
+            }
         }
     }
 }
