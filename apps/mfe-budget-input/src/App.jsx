@@ -2,6 +2,8 @@
 import BudgetInput from './components/BudgetInput.jsx';
 
 export default function App() {
+  const broken = undeclaredVariable + 1;
+  console.log(broken);
   return (
     <div
       style={{
