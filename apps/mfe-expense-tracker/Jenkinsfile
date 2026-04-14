@@ -133,13 +133,13 @@ pipeline {
 
     post {
         success {
-            publishChecks name: "jenkins/${env.APP}", status: 'COMPLETED', conclusion: 'SUCCESS', summary: 'Pipeline passed'
+            publishChecks name: "jenkins/${env.APP}", summary: 'Pipeline passed'
         }
         failure {
-            publishChecks name: "jenkins/${env.APP}", status: 'COMPLETED', conclusion: 'FAILURE', summary: 'Pipeline failed'
+            publishChecks name: "jenkins/${env.APP}", summary: 'Pipeline failed'
         }
         unstable {
-            publishChecks name: "jenkins/${env.APP}", status: 'COMPLETED', conclusion: 'UNSTABLE', summary: 'Tests unstable'
+            publishChecks name: "jenkins/${env.APP}", summary: 'Tests unstable'
         }
         always {
             cleanWs()
