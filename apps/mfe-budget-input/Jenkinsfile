@@ -125,13 +125,31 @@ pipeline {
             cleanWs()
         }
         success {
-            echo "[${env.APP}] Pipeline passed on '${env.BRANCH_NAME}' (build #${env.BUILD_NUMBER})"
+            publishChecks(
+                name: "jenkins/${env.APP}",
+                title: 'Pipeline passed',
+                summary: "All stages passed on '${env.BRANCH_NAME}' (build #${env.BUILD_NUMBER})",
+                status: 'COMPLETED',
+                conclusion: 'SUCCESS'
+            )
         }
         failure {
-            echo "[${env.APP}] Pipeline FAILED on '${env.BRANCH_NAME}' (build #${env.BUILD_NUMBER})"
+            publishChecks(
+                name: "jenkins/${env.APP}",
+                title: 'Pipeline failed',
+                summary: "Pipeline FAILED on '${env.BRANCH_NAME}' (build #${env.BUILD_NUMBER})",
+                status: 'COMPLETED',
+                conclusion: 'FAILURE'
+            )
         }
         unstable {
-            echo "[${env.APP}] Pipeline UNSTABLE on '${env.BRANCH_NAME}' — check test results"
+            publishChecks(
+                name: "jenkins/${env.APP}",
+                title: 'Pipeline unstable',
+                summary: "Tests unstable on '${env.BRANCH_NAME}' (build #${env.BUILD_NUMBER})",
+                status: 'COMPLETED',
+                conclusion: 'FAILURE'
+            )
         }
     }
 }
