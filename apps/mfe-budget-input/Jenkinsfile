@@ -49,6 +49,7 @@ pipeline {
                     changeset 'apps/mfe-budget-input/**'
                     changeset 'packages/**'
                     triggeredBy 'UserIdCause'
+                    expression { currentBuild.changeSets.isEmpty() }
                 }
             }
             steps {
@@ -63,6 +64,7 @@ pipeline {
                     changeset 'apps/mfe-budget-input/**'
                     changeset 'packages/**'
                     triggeredBy 'UserIdCause'
+                    expression { currentBuild.changeSets.isEmpty() }
                 }
             }
             steps {
@@ -85,6 +87,7 @@ pipeline {
                     changeset 'apps/mfe-budget-input/**'
                     changeset 'packages/**'
                     triggeredBy 'UserIdCause'
+                    expression { currentBuild.changeSets.isEmpty() }
                 }
             }
             steps {
@@ -100,6 +103,7 @@ pipeline {
                     changeset 'apps/mfe-budget-input/**'
                     changeset 'packages/**'
                     triggeredBy 'UserIdCause'
+                    expression { currentBuild.changeSets.isEmpty() }
                 }
             }
             steps {
