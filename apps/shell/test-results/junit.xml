@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="7" failures="0" errors="0" time="0.305943542">
+    <testsuite name="src/App.test.jsx" timestamp="2026-04-14T20:22:16.690Z" hostname="RushilDhinoja" tests="7" failures="0" errors="0" skipped="0" time="0.305943542">
+        <testcase classname="src/App.test.jsx" name="Shell App &gt; renders the app header" time="0.095397375">
+        </testcase>
+        <testcase classname="src/App.test.jsx" name="Shell App &gt; renders all navigation tabs" time="0.040472708">
+        </testcase>
+        <testcase classname="src/App.test.jsx" name="Shell App &gt; shows the Summary MFE on initial load (Dashboard tab)" time="0.0247475">
+        </testcase>
+        <testcase classname="src/App.test.jsx" name="Shell App &gt; switches to Budget Input MFE when Budget Setup tab is clicked" time="0.044660875">
+        </testcase>
+        <testcase classname="src/App.test.jsx" name="Shell App &gt; switches to Expense Tracker MFE when Expenses tab is clicked" time="0.036143041">
+        </testcase>
+        <testcase classname="src/App.test.jsx" name="Shell App &gt; only renders one MFE at a time" time="0.039357333">
+        </testcase>
+        <testcase classname="src/App.test.jsx" name="Shell App &gt; active tab is visually highlighted" time="0.023628625">
+        </testcase>
+    </testsuite>
+</testsuites>

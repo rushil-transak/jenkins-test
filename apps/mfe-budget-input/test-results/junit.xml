@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="9" failures="0" errors="0" time="0.265731292">
+    <testsuite name="src/components/BudgetInput.test.jsx" timestamp="2026-04-14T20:22:16.750Z" hostname="RushilDhinoja" tests="9" failures="0" errors="0" skipped="0" time="0.265731292">
+        <testcase classname="src/components/BudgetInput.test.jsx" name="BudgetInput &gt; renders a field for each budget category" time="0.081014375">
+        </testcase>
+        <testcase classname="src/components/BudgetInput.test.jsx" name="BudgetInput &gt; shows the total budget section" time="0.013415709">
+        </testcase>
+        <testcase classname="src/components/BudgetInput.test.jsx" name="BudgetInput &gt; starts with $0.00 total when localStorage is empty" time="0.013846583">
+        </testcase>
+        <testcase classname="src/components/BudgetInput.test.jsx" name="BudgetInput &gt; updates total when a value is typed" time="0.043440916">
+        </testcase>
+        <testcase classname="src/components/BudgetInput.test.jsx" name="BudgetInput &gt; adds multiple category values into the total" time="0.029775458">
+        </testcase>
+        <testcase classname="src/components/BudgetInput.test.jsx" name="BudgetInput &gt; saves budgets to localStorage when Save is clicked" time="0.030620167">
+        </testcase>
+        <testcase classname="src/components/BudgetInput.test.jsx" name="BudgetInput &gt; shows &quot;Saved!&quot; feedback after clicking Save" time="0.014226625">
+        </testcase>
+        <testcase classname="src/components/BudgetInput.test.jsx" name="BudgetInput &gt; resets all fields when Reset is clicked" time="0.024296042">
+        </testcase>
+        <testcase classname="src/components/BudgetInput.test.jsx" name="BudgetInput &gt; persists existing budgets from localStorage on mount" time="0.014243292">
+        </testcase>
+    </testsuite>
+</testsuites>

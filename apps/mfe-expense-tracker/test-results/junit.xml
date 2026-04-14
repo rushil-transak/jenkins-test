@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="11" failures="0" errors="0" time="0.34367175">
+    <testsuite name="src/components/ExpenseTracker.test.jsx" timestamp="2026-04-14T20:22:16.878Z" hostname="RushilDhinoja" tests="11" failures="0" errors="0" skipped="0" time="0.34367175">
+        <testcase classname="src/components/ExpenseTracker.test.jsx" name="ExpenseTracker &gt; renders the Add Expense form" time="0.073430041">
+        </testcase>
+        <testcase classname="src/components/ExpenseTracker.test.jsx" name="ExpenseTracker &gt; renders category selector with all categories" time="0.008744833">
+        </testcase>
+        <testcase classname="src/components/ExpenseTracker.test.jsx" name="ExpenseTracker &gt; shows empty state when no expenses exist" time="0.019797459">
+        </testcase>
+        <testcase classname="src/components/ExpenseTracker.test.jsx" name="ExpenseTracker &gt; disables the Add button when amount is empty" time="0.007368333">
+        </testcase>
+        <testcase classname="src/components/ExpenseTracker.test.jsx" name="ExpenseTracker &gt; enables the Add button when a valid amount is entered" time="0.023911458">
+        </testcase>
+        <testcase classname="src/components/ExpenseTracker.test.jsx" name="ExpenseTracker &gt; adds an expense to the list" time="0.039816625">
+        </testcase>
+        <testcase classname="src/components/ExpenseTracker.test.jsx" name="ExpenseTracker &gt; clears the form after adding an expense" time="0.02037425">
+        </testcase>
+        <testcase classname="src/components/ExpenseTracker.test.jsx" name="ExpenseTracker &gt; saves expense to localStorage" time="0.0160485">
+        </testcase>
+        <testcase classname="src/components/ExpenseTracker.test.jsx" name="ExpenseTracker &gt; deletes an expense when the × button is clicked" time="0.084718667">
+        </testcase>
+        <testcase classname="src/components/ExpenseTracker.test.jsx" name="ExpenseTracker &gt; loads existing expenses from localStorage on mount" time="0.02353725">
+        </testcase>
+        <testcase classname="src/components/ExpenseTracker.test.jsx" name="ExpenseTracker &gt; shows correct total for filtered expenses" time="0.02430675">
+        </testcase>
+    </testsuite>
+</testsuites>

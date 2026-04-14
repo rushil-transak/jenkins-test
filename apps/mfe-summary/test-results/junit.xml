@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="11" failures="0" errors="0" time="0.16787125">
+    <testsuite name="src/components/Summary.test.jsx" timestamp="2026-04-14T20:22:16.715Z" hostname="RushilDhinoja" tests="11" failures="0" errors="0" skipped="0" time="0.16787125">
+        <testcase classname="src/components/Summary.test.jsx" name="Summary &gt; shows empty state when there is no budget or expense data" time="0.042228583">
+        </testcase>
+        <testcase classname="src/components/Summary.test.jsx" name="Summary &gt; displays the TOTAL BUDGET label when budgets are set" time="0.031887709">
+        </testcase>
+        <testcase classname="src/components/Summary.test.jsx" name="Summary &gt; displays transaction count when expenses exist" time="0.007492708">
+        </testcase>
+        <testcase classname="src/components/Summary.test.jsx" name="Summary &gt; shows remaining amount and headroom when under budget" time="0.0111325">
+        </testcase>
+        <testcase classname="src/components/Summary.test.jsx" name="Summary &gt; shows over budget status when expenses exceed budget" time="0.005803625">
+        </testcase>
+        <testcase classname="src/components/Summary.test.jsx" name="Summary &gt; renders overall usage progress bar section" time="0.010756542">
+        </testcase>
+        <testcase classname="src/components/Summary.test.jsx" name="Summary &gt; renders per-category breakdown for active categories" time="0.011155208">
+        </testcase>
+        <testcase classname="src/components/Summary.test.jsx" name="Summary &gt; shows categories that have expenses even without a set budget" time="0.003864375">
+        </testcase>
+        <testcase classname="src/components/Summary.test.jsx" name="Summary &gt; shows &quot;over budget!&quot; label when a category is over its limit" time="0.004164">
+        </testcase>
+        <testcase classname="src/components/Summary.test.jsx" name="Summary &gt; updates when budget-app:budgets-updated event fires" time="0.020879791">
+        </testcase>
+        <testcase classname="src/components/Summary.test.jsx" name="Summary &gt; updates when budget-app:expenses-updated event fires" time="0.017246125">
+        </testcase>
+    </testsuite>
+</testsuites>

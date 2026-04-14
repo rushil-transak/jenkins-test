@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(npx turbo *)",
+      "Bash(npm *)",
+      "Bash(grep *)",
+      "Bash(sed -i '' 's/^import React from .react.;$//' apps/mfe-budget-input/src/main.jsx apps/mfe-budget-input/src/App.jsx apps/mfe-expense-tracker/src/main.jsx apps/mfe-expense-tracker/src/App.jsx apps/mfe-summary/src/main.jsx apps/mfe-summary/src/App.jsx apps/shell/src/components/Header.jsx apps/shell/src/main.jsx)",
+      "Bash(sed -i '' 's/import React, { useState } from .react.;/import { useState } from '\\\\''react'\\\\'';/' apps/mfe-budget-input/src/components/BudgetInput.jsx apps/mfe-expense-tracker/src/components/ExpenseTracker.jsx)",
+      "Bash(sed -i '' 's/import React, { useState, useEffect } from .react.;/import { useState, useEffect } from '\\\\''react'\\\\'';/' apps/mfe-summary/src/components/Summary.jsx)",
+      "Bash(sed -i '' 's/import React, { Suspense, useState } from .react.;/import React, { Suspense, useState } from '\\\\''react'\\\\'';/' apps/shell/src/App.jsx)"
+    ]
+  }
+}

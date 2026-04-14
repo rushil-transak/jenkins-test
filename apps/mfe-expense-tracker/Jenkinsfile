@@ -1,0 +1,129 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Pipeline: @budget/mfe-expense-tracker  (apps/mfe-expense-tracker)
+//
+// Jenkins setup:
+//   1. Create a "Multibranch Pipeline" job in Jenkins.
+//   2. Set "Script Path" to:  apps/mfe-expense-tracker/Jenkinsfile
+//   3. Point to your GitHub repo and add a webhook (or enable SCM polling).
+//
+// Trigger logic:
+//   • Every push fires this job.
+//   • Lint / Test / Build / Archive are SKIPPED unless files inside
+//     apps/mfe-expense-tracker/** or packages/** changed.
+//   • Manual ("Build Now") runs always execute all stages.
+// ─────────────────────────────────────────────────────────────────────────────
+
+pipeline {
+    agent {
+        docker {
+            image 'node:20-alpine'
+            args  '--user root'
+        }
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timeout(time: 20, unit: 'MINUTES')
+        skipStagesAfterUnstable()
+        disableConcurrentBuilds()
+    }
+
+    environment {
+        APP            = 'mfe-expense-tracker'
+        WORKSPACE_FLAG = '--workspace=apps/mfe-expense-tracker'
+        CI             = 'true'
+    }
+
+    stages {
+
+        // ── 1. Install ─────────────────────────────────────────────────────
+        stage('Install') {
+            steps {
+                sh 'npm ci --no-audit --no-fund'
+            }
+        }
+
+        // ── 2. Lint ────────────────────────────────────────────────────────
+        stage('Lint') {
+            when {
+                anyOf {
+                    changeset 'apps/mfe-expense-tracker/**'
+                    changeset 'packages/**'
+                    triggeredBy 'UserIdCause'
+                }
+            }
+            steps {
+                sh "npm run lint ${env.WORKSPACE_FLAG}"
+            }
+        }
+
+        // ── 3. Test ────────────────────────────────────────────────────────
+        stage('Test') {
+            when {
+                anyOf {
+                    changeset 'apps/mfe-expense-tracker/**'
+                    changeset 'packages/**'
+                    triggeredBy 'UserIdCause'
+                }
+            }
+            steps {
+                sh "npm run test ${env.WORKSPACE_FLAG}"
+            }
+            post {
+                always {
+                    junit(
+                        testResults: 'apps/mfe-expense-tracker/test-results/junit.xml',
+                        allowEmptyResults: true
+                    )
+                }
+            }
+        }
+
+        // ── 4. Build ───────────────────────────────────────────────────────
+        stage('Build') {
+            when {
+                anyOf {
+                    changeset 'apps/mfe-expense-tracker/**'
+                    changeset 'packages/**'
+                    triggeredBy 'UserIdCause'
+                }
+            }
+            steps {
+                sh "npm run build ${env.WORKSPACE_FLAG}"
+            }
+        }
+
+        // ── 5. Archive ─────────────────────────────────────────────────────
+        stage('Archive') {
+            when {
+                anyOf {
+                    changeset 'apps/mfe-expense-tracker/**'
+                    changeset 'packages/**'
+                    triggeredBy 'UserIdCause'
+                }
+            }
+            steps {
+                archiveArtifacts(
+                    artifacts: 'apps/mfe-expense-tracker/dist/**',
+                    fingerprint: true,
+                    allowEmptyArchive: false
+                )
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            echo "[${env.APP}] Pipeline passed on '${env.BRANCH_NAME}' (build #${env.BUILD_NUMBER})"
+        }
+        failure {
+            echo "[${env.APP}] Pipeline FAILED on '${env.BRANCH_NAME}' (build #${env.BUILD_NUMBER})"
+        }
+        unstable {
+            echo "[${env.APP}] Pipeline UNSTABLE on '${env.BRANCH_NAME}' — check test results"
+        }
+    }
+}
