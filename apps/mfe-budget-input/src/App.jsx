@@ -2,7 +2,9 @@
 import BudgetInput from './components/BudgetInput.jsx';
 
 export default function App() {
-return (
+  const broken = undeclaredVariable + 1;
+  console.log(broken);
+  return (
     <div
       style={{
         minHeight: '100vh',
