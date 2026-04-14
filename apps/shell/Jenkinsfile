@@ -118,13 +118,28 @@ pipeline {
             cleanWs()
         }
         success {
-            echo "[${env.APP}] Pipeline passed on '${env.BRANCH_NAME}' (build #${env.BUILD_NUMBER})"
+            githubNotify(
+                credentialsId: 'github-pat',
+                status: 'SUCCESS',
+                description: "${env.APP} pipeline passed",
+                context: "jenkins/${env.APP}"
+            )
         }
         failure {
-            echo "[${env.APP}] Pipeline FAILED on '${env.BRANCH_NAME}' (build #${env.BUILD_NUMBER})"
+            githubNotify(
+                credentialsId: 'github-pat',
+                status: 'FAILURE',
+                description: "${env.APP} pipeline failed",
+                context: "jenkins/${env.APP}"
+            )
         }
         unstable {
-            echo "[${env.APP}] Pipeline UNSTABLE on '${env.BRANCH_NAME}' — check test results"
+            githubNotify(
+                credentialsId: 'github-pat',
+                status: 'FAILURE',
+                description: "${env.APP} tests unstable",
+                context: "jenkins/${env.APP}"
+            )
         }
     }
 }
