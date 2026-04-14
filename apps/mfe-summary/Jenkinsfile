@@ -136,7 +136,7 @@ pipeline {
             cleanWs()
         }
         success {
-            withCredentials([string(credentialsId: 'github-pat-token', variable: 'GH_PAT')]) {
+            withCredentials([usernamePassword(credentialsId: 'rushil-t', usernameVariable: 'GH_USER', passwordVariable: 'GH_PAT')]) {
                 sh """
                     cd /tmp
                     echo "Posting success for ${env.APP} to SHA ${env.STATUS_SHA}"
@@ -150,7 +150,7 @@ pipeline {
             }
         }
         failure {
-            withCredentials([string(credentialsId: 'github-pat-token', variable: 'GH_PAT')]) {
+            withCredentials([usernamePassword(credentialsId: 'rushil-t', usernameVariable: 'GH_USER', passwordVariable: 'GH_PAT')]) {
                 sh """
                     cd /tmp
                     echo "Posting failure for ${env.APP} to SHA ${env.STATUS_SHA}"
@@ -164,7 +164,7 @@ pipeline {
             }
         }
         unstable {
-            withCredentials([string(credentialsId: 'github-pat-token', variable: 'GH_PAT')]) {
+            withCredentials([usernamePassword(credentialsId: 'rushil-t', usernameVariable: 'GH_USER', passwordVariable: 'GH_PAT')]) {
                 sh """
                     cd /tmp
                     echo "Posting unstable for ${env.APP} to SHA ${env.STATUS_SHA}"
