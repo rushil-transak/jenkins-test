@@ -132,50 +132,17 @@ pipeline {
     }
 
     post {
-        cleanup {
-            cleanWs()
-        }
         success {
-            withCredentials([usernamePassword(credentialsId: 'rushil-t', usernameVariable: 'GH_USER', passwordVariable: 'GH_PAT')]) {
-                sh """
-                    cd /tmp
-                    echo "Posting success for ${env.APP} to SHA ${env.STATUS_SHA}"
-                    curl -s -w "\\nHTTP_CODE:%{http_code}" -X POST \\
-                      -H "Authorization: token \${GH_PAT}" \\
-                      -H "Content-Type: application/json" \\
-                      "https://api.github.com/repos/${env.GH_REPO}/statuses/${env.STATUS_SHA}" \\
-                      -d '{"state":"success","context":"jenkins/${env.APP}","description":"Pipeline passed","target_url":"${env.BUILD_URL}"}' \\
-                      || echo "curl exited non-zero"
-                """
-            }
+            publishChecks name: "jenkins/${env.APP}", status: 'COMPLETED', conclusion: 'SUCCESS', summary: 'Pipeline passed'
         }
         failure {
-            withCredentials([usernamePassword(credentialsId: 'rushil-t', usernameVariable: 'GH_USER', passwordVariable: 'GH_PAT')]) {
-                sh """
-                    cd /tmp
-                    echo "Posting failure for ${env.APP} to SHA ${env.STATUS_SHA}"
-                    curl -s -w "\\nHTTP_CODE:%{http_code}" -X POST \\
-                      -H "Authorization: token \${GH_PAT}" \\
-                      -H "Content-Type: application/json" \\
-                      "https://api.github.com/repos/${env.GH_REPO}/statuses/${env.STATUS_SHA}" \\
-                      -d '{"state":"failure","context":"jenkins/${env.APP}","description":"Pipeline failed","target_url":"${env.BUILD_URL}"}' \\
-                      || echo "curl exited non-zero"
-                """
-            }
+            publishChecks name: "jenkins/${env.APP}", status: 'COMPLETED', conclusion: 'FAILURE', summary: 'Pipeline failed'
         }
         unstable {
-            withCredentials([usernamePassword(credentialsId: 'rushil-t', usernameVariable: 'GH_USER', passwordVariable: 'GH_PAT')]) {
-                sh """
-                    cd /tmp
-                    echo "Posting unstable for ${env.APP} to SHA ${env.STATUS_SHA}"
-                    curl -s -w "\\nHTTP_CODE:%{http_code}" -X POST \\
-                      -H "Authorization: token \${GH_PAT}" \\
-                      -H "Content-Type: application/json" \\
-                      "https://api.github.com/repos/${env.GH_REPO}/statuses/${env.STATUS_SHA}" \\
-                      -d '{"state":"failure","context":"jenkins/${env.APP}","description":"Tests unstable","target_url":"${env.BUILD_URL}"}' \\
-                      || echo "curl exited non-zero"
-                """
-            }
+            publishChecks name: "jenkins/${env.APP}", status: 'COMPLETED', conclusion: 'UNSTABLE', summary: 'Tests unstable'
+        }
+        always {
+            cleanWs()
         }
     }
 }
