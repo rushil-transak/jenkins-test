@@ -3,6 +3,7 @@ import Header from './components/Header.jsx';
 
 // Remote components loaded via Vite Module Federation.
 // Remotes must be running (vite preview) on ports 3001-3003 before starting the shell.
+// Trigger CI: pipeline check
 const BudgetInput = React.lazy(() => import('mfeBudgetInput/BudgetInput'));
 const ExpenseTracker = React.lazy(() => import('mfeExpenseTracker/ExpenseTracker'));
 const Summary = React.lazy(() => import('mfeSummary/Summary'));
