@@ -51,6 +51,10 @@ pipeline {
                     triggeredBy 'UserIdCause'
                     expression { currentBuild.changeSets.isEmpty() }
                     changeRequest()
+                    expression {
+                        sh(returnStatus: true,
+                           script: "git diff --quiet origin/${env.CHANGE_TARGET ?: 'master'}...HEAD -- apps/shell/ packages/") != 0
+                    }
                 }
             }
             steps {
@@ -67,6 +71,10 @@ pipeline {
                     triggeredBy 'UserIdCause'
                     expression { currentBuild.changeSets.isEmpty() }
                     changeRequest()
+                    expression {
+                        sh(returnStatus: true,
+                           script: "git diff --quiet origin/${env.CHANGE_TARGET ?: 'master'}...HEAD -- apps/shell/ packages/") != 0
+                    }
                 }
             }
             steps {
@@ -91,6 +99,10 @@ pipeline {
                     triggeredBy 'UserIdCause'
                     expression { currentBuild.changeSets.isEmpty() }
                     changeRequest()
+                    expression {
+                        sh(returnStatus: true,
+                           script: "git diff --quiet origin/${env.CHANGE_TARGET ?: 'master'}...HEAD -- apps/shell/ packages/") != 0
+                    }
                 }
             }
             steps {
@@ -107,6 +119,10 @@ pipeline {
                     triggeredBy 'UserIdCause'
                     expression { currentBuild.changeSets.isEmpty() }
                     changeRequest()
+                    expression {
+                        sh(returnStatus: true,
+                           script: "git diff --quiet origin/${env.CHANGE_TARGET ?: 'master'}...HEAD -- apps/shell/ packages/") != 0
+                    }
                 }
             }
             steps {
@@ -120,6 +136,15 @@ pipeline {
     }
 
     post {
+        success {
+            publishChecks name: "jenkins/${env.APP}", summary: 'Pipeline passed'
+        }
+        failure {
+            publishChecks name: "jenkins/${env.APP}", summary: 'Pipeline failed'
+        }
+        unstable {
+            publishChecks name: "jenkins/${env.APP}", summary: 'Tests unstable'
+        }
         always {
             cleanWs()
         }
