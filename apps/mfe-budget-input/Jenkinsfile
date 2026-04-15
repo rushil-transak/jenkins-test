@@ -137,13 +137,22 @@ pipeline {
 
     post {
         success {
-            publishChecks name: "jenkins/${env.APP}", summary: 'Pipeline passed'
+            script {
+                publishChecks(name: "jenkins/${env.APP}", summary: 'Pipeline passed',
+                    conclusion: 'SUCCESS' as io.jenkins.plugins.checks.api.ChecksConclusion)
+            }
         }
         failure {
-            publishChecks name: "jenkins/${env.APP}", summary: 'Pipeline failed'
+            script {
+                publishChecks(name: "jenkins/${env.APP}", summary: 'Pipeline failed',
+                    conclusion: 'FAILURE' as io.jenkins.plugins.checks.api.ChecksConclusion)
+            }
         }
         unstable {
-            publishChecks name: "jenkins/${env.APP}", summary: 'Tests unstable'
+            script {
+                publishChecks(name: "jenkins/${env.APP}", summary: 'Tests unstable',
+                    conclusion: 'NEUTRAL' as io.jenkins.plugins.checks.api.ChecksConclusion)
+            }
         }
         always {
             cleanWs()
